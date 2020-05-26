@@ -1,7 +1,18 @@
 import React, { Component } from 'react'
 
 class TOC extends Component {
+	shouldComponentUpdate(newProps, newState){
+		console.log('===>TOC render shouldComponentUpdate',
+			newProps.data,
+			this.props.data
+		);
+		if (this.props.data === newProps.data) {
+			return false;
+		}
+		return true;
+	}
 	render() {
+	  console.log('===>TOC render');
 	  var lists = [];
 	  var data = this.props.data;
 	  var i = 0;
@@ -10,14 +21,14 @@ class TOC extends Component {
 		  	<li key={data[i].id}>
 				<a
 					href={"/content/"+data[i].id}
-					// data-id={data[i].id}
-					//onClick={function(e){
-					onClick={function(id, e){ //bind에 두번째 인자로 값을 넘겨주면 한칸씩 뒤로 밀림
+					data-id={data[i].id}
+					onClick={function(e){
+					// onClick={function(id, e){ //bind에 두번째 인자로 값을 넘겨주면 한칸씩 뒤로 밀림
 						e.preventDefault();
-						//this.props.onChangePage(e.target.dataset.id); //target = a, data-id = dataset.id
-						this.props.onChangePage(id); //target = a, data-id = dataset.id
-					// }.bind(this)}
-					}.bind(this, data[i].id)} //
+						this.props.onChangePage(e.target.dataset.id); //target = a, data-id = dataset.id
+						// </li>this.props.onChangePage(id); //target = a, data-id = dataset.id
+					}.bind(this)}
+					// }.bind(this, data[i].id)}
 				>{data[i].title}</a>
 			</li>);
 		  i = i + 1;
